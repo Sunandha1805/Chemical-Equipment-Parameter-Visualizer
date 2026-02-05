@@ -1,0 +1,4 @@
+# PyQt5 requirements
+pyqt5
+matplotlib
+requests
