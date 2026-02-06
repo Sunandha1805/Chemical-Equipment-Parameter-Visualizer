@@ -41,6 +41,7 @@ class FileUploadView(APIView):
         if file_serializer.is_valid():
             # Save the file first to get the path
             data_file = file_serializer.save()
+            print(f"File saved successfully: {data_file.file.path}")
             
             # Perform Pandas analysis
             stats = process_csv_data(data_file.file.path)
