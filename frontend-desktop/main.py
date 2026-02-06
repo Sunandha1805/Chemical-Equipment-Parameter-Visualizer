@@ -1,6 +1,8 @@
 import sys
 import requests
 import webbrowser
+import os
+import tempfile
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, 
                              QHBoxLayout, QPushButton, QLabel, QFileDialog, 
                              QTextEdit, QMessageBox, QTableWidget, QTableWidgetItem, QHeaderView)
@@ -79,7 +81,7 @@ class VisualizerApp(QMainWindow):
 
         self.selected_file_path = ""
         self.api_base = "http://127.0.0.1:8000/api"
-        self.auth_token = "e8e23c348f2d4cc3367dec515093c74ad72160ab"
+        self.auth_token = "8abb65433a2f9d94ee8f86a67f49c5d4026fb0f2"
         self.current_data_id = None
 
     def open_file_dialog(self):
@@ -108,8 +110,23 @@ class VisualizerApp(QMainWindow):
 
     def download_pdf(self):
         if self.current_data_id:
-            url = f"{self.api_base}/report/{self.current_data_id}/"
-            webbrowser.open(url)
+            try:
+                url = f"{self.api_base}/report/{self.current_data_id}/"
+                headers = {"Authorization": f"Token {self.auth_token}"}
+                response = requests.get(url, headers=headers)
+                
+                if response.status_code == 200:
+                    # Save to a temp file and open
+                    with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
+                        tmp.write(response.content)
+                        tmp_path = tmp.name
+                    
+                    # Open the file with the default PDF viewer
+                    os.startfile(tmp_path)
+                else:
+                    QMessageBox.warning(self, "Error", f"Failed to download report: {response.text}")
+            except Exception as e:
+                QMessageBox.critical(self, "Error", f"An error occurred: {str(e)}")
 
     def display_results(self, data):
         stats = data.get('statistics', {})

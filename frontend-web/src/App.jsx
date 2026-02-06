@@ -58,37 +58,42 @@ function App() {
     };
 
     return (
-        <div style={{ minHeight: '100vh', backgroundColor: 'var(--slate-50)' }}>
+        <div style={{ minHeight: '100vh' }}>
             {/* Header / Navbar */}
             <nav style={{ 
-                backgroundColor: 'var(--white)', 
-                borderBottom: '1px solid var(--slate-200)',
-                padding: '1rem 2rem',
+                backgroundColor: 'rgba(255, 255, 255, 0.7)', 
+                backdropFilter: 'blur(20px)',
+                WebkitBackdropFilter: 'blur(20px)',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.8)',
+                padding: 'var(--space-4) var(--space-8)',
                 position: 'sticky',
                 top: 0,
                 zIndex: 100,
                 boxShadow: 'var(--shadow-sm)'
             }}>
                 <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div onClick={resetToIntro} style={{ cursor: 'pointer' }}>
-                        <h1 style={{ fontSize: '1.25rem', color: 'var(--primary-600)', margin: 0 }}>Visualizer Pro</h1>
-                    </div>
-                    <div style={{ fontSize: '0.875rem', color: 'var(--slate-500)' }}>
-                        Intern Assessment Task
+                    <div onClick={resetToIntro} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+                        <div style={{ 
+                            width: '36px', 
+                            height: '36px', 
+                            backgroundColor: 'var(--primary-600)', 
+                            borderRadius: 'var(--radius-md)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: 'white',
+                            fontWeight: 'bold',
+                            fontSize: '1.4rem'
+                        }}>V</div>
+                        <div>
+                            <h1 style={{ fontSize: '1.1rem', color: 'var(--slate-900)', margin: 0, fontWeight: 700 }}>Visualizer Pro</h1>
+                            <p style={{ fontSize: '0.7rem', color: 'var(--slate-500)', margin: 0, lineHeight: 1 }}>Equipment Monitoring System</p>
+                        </div>
                     </div>
                 </div>
             </nav>
 
             <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem' }}>
-                {uiState === 'intro_state' && (
-                    <header style={{ marginBottom: '3rem' }}>
-                        <h2 style={{ fontSize: '2.25rem', marginBottom: '0.5rem' }}>Equipment Dashboard</h2>
-                        <p style={{ color: 'var(--slate-500)', fontSize: '1.1rem' }}>
-                            Upload datasets to monitor flowrate, pressure, and temperature metrics.
-                        </p>
-                    </header>
-                )}
-
                 <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
                     <section style={{ display: (uiState !== 'intro_state' || hasSelectedFile) ? 'block' : 'none' }}>
                         <FileUpload 

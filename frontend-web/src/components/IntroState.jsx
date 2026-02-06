@@ -26,172 +26,190 @@ const IntroState = ({ history, onUploadClick, onViewLastClick }) => {
             display: 'flex', 
             flexDirection: 'column', 
             alignItems: 'center', 
-            justifyContent: 'center', 
             textAlign: 'center',
-            padding: '4rem 1rem',
+            padding: 'var(--space-16) var(--space-4)',
             maxWidth: '800px',
             margin: '0 auto',
-            width: '100%'
+            width: '100%',
+            gap: 'var(--space-12)'
         }}>
-            <div style={{ fontSize: '4.5rem', marginBottom: '1.5rem' }}>📊</div>
-            <h2 style={{ fontSize: '2.75rem', marginBottom: '1rem', color: 'var(--slate-900)', fontWeight: '800' }}>
-                Chemical Equipment Visualizer
-            </h2>
-            
-            <p style={{ fontSize: '1.25rem', color: 'var(--slate-500)', marginBottom: '2.5rem' }}>
-                No dataset currently loaded.
-            </p>
+            {/* Hero / Branding Section */}
+            <header style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-6)' }}>
+                <div style={{ 
+                    fontSize: '4.5rem', 
+                    padding: 'var(--space-5)',
+                    background: 'linear-gradient(135deg, var(--white) 0%, var(--primary-50) 100%)',
+                    borderRadius: 'var(--radius-2xl)',
+                    boxShadow: '0 20px 40px -10px hsla(250, 65%, 60%, 0.2)',
+                    border: '1px solid var(--white)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}>📊</div>
+                <div>
+                    <h2 style={{ fontSize: '3rem', marginBottom: 'var(--space-3)', color: 'var(--slate-900)', fontWeight: '800', letterSpacing: '-0.05em' }}>
+                        Chemical Equipment Visualizer
+                    </h2>
+                    <p style={{ fontSize: '1.25rem', color: 'var(--slate-600)', maxWidth: '600px', margin: '0 auto', fontWeight: '400', opacity: 0.9 }}>
+                        Upload document for monitoring flowrate, pressure, and temperature metrics.
+                    </p>
+                </div>
+            </header>
 
-            <div style={{ marginBottom: '4rem' }}>
+            {/* Primary Action Section */}
+            <div style={{ 
+                width: '100%', 
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'center', 
+                gap: 'var(--space-10)'
+            }}>
                 <button 
                     onClick={onUploadClick}
                     style={{
                         backgroundColor: 'var(--primary-600)',
                         color: 'white',
                         border: 'none',
-                        padding: '16px 40px',
-                        borderRadius: '12px',
-                        fontSize: '1.15rem',
-                        fontWeight: '600',
-                        boxShadow: 'var(--shadow-lg)',
+                        padding: '20px 64px',
+                        borderRadius: 'var(--radius-xl)',
+                        fontSize: '1.25rem',
+                        fontWeight: '700',
+                        boxShadow: '0 15px 30px -5px hsla(250, 65%, 60%, 0.4)',
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '12px',
+                        gap: '14px',
                         cursor: 'pointer',
-                        transition: 'transform 0.2s ease, background-color 0.2s ease'
+                        transition: 'var(--transition)'
                     }}
                     onMouseOver={(e) => {
                         e.currentTarget.style.backgroundColor = 'var(--primary-700)';
-                        e.currentTarget.style.transform = 'translateY(-2px)';
+                        e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)';
+                        e.currentTarget.style.boxShadow = '0 20px 40px -5px hsla(250, 65%, 60%, 0.5)';
                     }}
                     onMouseOut={(e) => {
                         e.currentTarget.style.backgroundColor = 'var(--primary-600)';
-                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                        e.currentTarget.style.boxShadow = '0 15px 30px -5px hsla(250, 65%, 60%, 0.4)';
                     }}
                 >
-                    📁 Upload CSV File
+                    📁 Upload New Dataset
                 </button>
+
+                {/* Supporting Info Pill */}
+                <div style={{
+                    backgroundColor: 'rgba(255, 255, 255, 0.4)',
+                    backdropFilter: 'blur(5px)',
+                    padding: 'var(--space-2) var(--space-6)',
+                    borderRadius: '100px',
+                    border: '1px solid var(--slate-200)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 'var(--space-5)',
+                    fontSize: '0.8rem',
+                    color: 'var(--slate-500)',
+                }}>
+                    <span style={{ color: 'var(--slate-800)', fontWeight: 800, textTransform: 'uppercase', fontSize: '0.7rem', letterSpacing: '0.08em' }}>Recommended Columns</span>
+                    <div style={{ display: 'flex', gap: 'var(--space-4)', fontWeight: 600 }}>
+                        {['Equipment Name', 'Type', 'Flowrate', 'Pressure', 'Temperature'].map((col, i) => (
+                            <span key={col} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                {i > 0 && <span style={{ width: '5px', height: '5px', backgroundColor: 'var(--primary-600)', opacity: 0.3, borderRadius: '50%' }}></span>}
+                                {col}
+                            </span>
+                        ))}
+                    </div>
+                </div>
             </div>
 
             {hasHistory ? (
-                <>
-                    <div className="card" style={{ 
-                        textAlign: 'left', 
-                        padding: '2rem', 
-                        width: '100%',
-                        backgroundColor: 'var(--slate-50)',
-                        border: '1px dashed var(--slate-300)',
-                        borderRadius: '16px',
-                        marginBottom: '4rem'
-                    }}>
-                        <h3 style={{ fontSize: '0.875rem', color: 'var(--slate-500)', marginBottom: '1.25rem', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: '700' }}>
-                            Supported CSV Format
-                        </h3>
-                        <ul style={{ 
-                            listStyle: 'none', 
-                            padding: 0, 
-                            display: 'grid', 
-                            gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
-                            gap: '1rem',
-                            color: 'var(--slate-700)',
-                            fontWeight: '500'
-                        }}>
-                            <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                <span style={{ color: 'var(--primary-600)', fontSize: '1.2rem' }}>•</span> Equipment Name
-                            </li>
-                            <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                <span style={{ color: 'var(--primary-600)', fontSize: '1.2rem' }}>•</span> Type
-                            </li>
-                            <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                <span style={{ color: 'var(--primary-600)', fontSize: '1.2rem' }}>•</span> Flowrate
-                            </li>
-                            <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                <span style={{ color: 'var(--primary-600)', fontSize: '1.2rem' }}>•</span> Pressure
-                            </li>
-                            <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                <span style={{ color: 'var(--primary-600)', fontSize: '1.2rem' }}>•</span> Temperature
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div style={{
-                        width: '100%',
-                        padding: '2.5rem',
-                        backgroundColor: 'white',
-                        borderRadius: '20px',
-                        boxShadow: 'var(--shadow-sm)',
-                        border: '1px solid var(--slate-100)',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center'
-                    }}>
-                        <h4 style={{ color: 'var(--slate-800)', marginBottom: '1.5rem', fontSize: '1.1rem' }}>
-                            Last uploaded dataset available:
+                <div className="card" style={{
+                    width: '100%',
+                    marginTop: 'var(--space-8)',
+                    padding: 'var(--space-10)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: 'var(--space-8)'
+                }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center', borderBottom: '1px solid var(--slate-100)', paddingBottom: 'var(--space-5)' }}>
+                        <h4 style={{ color: 'var(--slate-800)', margin: 0, fontSize: '1.25rem', fontWeight: '800' }}>
+                            Recently Analyzed
                         </h4>
-                        
-                        <div style={{ 
-                            display: 'flex', 
-                            flexDirection: 'column', 
-                            gap: '0.75rem', 
-                            marginBottom: '2rem',
-                            textAlign: 'left',
-                            fontSize: '1rem'
-                        }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'var(--slate-700)' }}>
-                                <span style={{ fontSize: '1.2rem' }}>📁</span> 
-                                <strong>Filename:</strong> {getFilename(lastDataset.file)}
-                            </div>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'var(--slate-700)' }}>
-                                <span style={{ fontSize: '1.2rem' }}>🕒</span> 
-                                <strong>Upload time:</strong> {formatDate(lastDataset.uploaded_at)}
-                            </div>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'var(--slate-700)' }}>
-                                <span style={{ fontSize: '1.2rem' }}>🔢</span> 
-                                <strong>Total equipment count:</strong> {lastDataset.statistics?.total_equipment_count || 'N/A'}
+                        <span style={{ fontSize: '0.75rem', color: 'var(--primary-600)', textTransform: 'uppercase', fontWeight: 900, letterSpacing: '0.1em', background: 'var(--primary-50)', padding: '4px 12px', borderRadius: '100px' }}>History available</span>
+                    </div>
+                    
+                    <div style={{ 
+                        display: 'grid', 
+                        gridTemplateColumns: '1fr 1fr',
+                        gap: 'var(--space-10)',
+                        width: '100%',
+                        textAlign: 'left',
+                        fontSize: '0.95rem'
+                    }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                            <div style={{ backgroundColor: 'var(--primary-50)', color: 'var(--primary-600)', padding: '12px', borderRadius: '14px', fontSize: '1.4rem' }}>📄</div>
+                            <div>
+                                <div style={{ fontSize: '0.75rem', color: 'var(--slate-400)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Filename</div>
+                                <div style={{ maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontWeight: 700, color: 'var(--slate-800)', fontSize: '1rem' }}>
+                                    {getFilename(lastDataset.file)}
+                                </div>
                             </div>
                         </div>
-
-                        <button 
-                            onClick={onViewLastClick}
-                            style={{
-                                backgroundColor: 'white',
-                                color: 'var(--primary-600)',
-                                border: '2px solid var(--primary-600)',
-                                padding: '12px 32px',
-                                borderRadius: '10px',
-                                fontSize: '1rem',
-                                fontWeight: '700',
-                                cursor: 'pointer',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '8px',
-                                transition: 'all 0.2s ease'
-                            }}
-                            onMouseOver={(e) => {
-                                e.currentTarget.style.backgroundColor = 'var(--primary-50)';
-                            }}
-                            onMouseOut={(e) => {
-                                e.currentTarget.style.backgroundColor = 'white';
-                            }}
-                        >
-                            👁️ View Previous Analysis
-                        </button>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                            <div style={{ backgroundColor: 'var(--primary-50)', color: 'var(--primary-600)', padding: '12px', borderRadius: '14px', fontSize: '1.4rem' }}>🕒</div>
+                            <div>
+                                <div style={{ fontSize: '0.75rem', color: 'var(--slate-400)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Uploaded At</div>
+                                <div style={{ fontWeight: 700, color: 'var(--slate-800)', fontSize: '1rem' }}>{formatDate(lastDataset.uploaded_at)}</div>
+                            </div>
+                        </div>
                     </div>
-                </>
+
+                    <button 
+                        onClick={onViewLastClick}
+                        style={{
+                            width: '100%',
+                            backgroundColor: 'var(--white)',
+                            color: 'var(--primary-600)',
+                            border: '2px solid var(--primary-50)',
+                            padding: '16px 0',
+                            borderRadius: 'var(--radius-xl)',
+                            fontSize: '1.1rem',
+                            fontWeight: '700',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '10px',
+                            boxShadow: 'var(--shadow-sm)',
+                            transition: 'var(--transition)'
+                        }}
+                        onMouseOver={(e) => {
+                            e.currentTarget.style.borderColor = 'var(--primary-600)';
+                            e.currentTarget.style.transform = 'scale(1.01)';
+                        }}
+                        onMouseOut={(e) => {
+                            e.currentTarget.style.borderColor = 'var(--primary-50)';
+                            e.currentTarget.style.transform = 'scale(1)';
+                        }}
+                    >
+                        Explore Previous Analysis <span>→</span>
+                    </button>
+                </div>
             ) : (
                 <div style={{
                     width: '100%',
-                    padding: '2rem',
-                    backgroundColor: 'var(--slate-50)',
-                    borderRadius: '16px',
+                    padding: 'var(--space-16)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.4)',
+                    backdropFilter: 'blur(5px)',
+                    borderRadius: 'var(--radius-2xl)',
                     color: 'var(--slate-400)',
                     fontSize: '1.1rem',
-                    fontWeight: '500',
-                    border: '1px solid var(--slate-100)',
-                    boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.02)'
+                    textAlign: 'center',
+                    border: '2px dashed var(--slate-200)',
+                    marginTop: 'var(--space-8)'
                 }}>
-                    <div style={{ fontSize: '2rem', marginBottom: '8px', opacity: 0.5 }}>📂</div>
-                    No previous analysis available
+                <div style={{ fontSize: '3rem', marginBottom: 'var(--space-4)', opacity: 0.5 }}>✨</div>
+                    <div style={{ fontWeight: 600 }}>Ready for your first equipment analysis</div>
+                    <div style={{ fontSize: '0.9rem', marginTop: 'var(--space-2)', opacity: 0.8 }}>Upload a CSV to get started</div>
                 </div>
             )}
         </div>
