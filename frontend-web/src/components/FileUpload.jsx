@@ -41,7 +41,17 @@ const FileUpload = forwardRef(({ onUploadSuccess, onFileSelect }, ref) => {
             setSelectedFile(null); // Clear after success
             if (onFileSelect) onFileSelect(null);
         } catch (err) {
-            setError(err.response?.data?.details || 'Upload failed. Check your file format.');
+            let errorMsg = 'Upload failed. Check your file format.';
+            if (err.response?.data) {
+                if (err.response.data.details) {
+                    errorMsg = err.response.data.details;
+                } else if (typeof err.response.data === 'object') {
+                    // Handle serializer errors (e.g., {"file": ["error"]})
+                    const firstError = Object.values(err.response.data)[0];
+                    errorMsg = Array.isArray(firstError) ? firstError[0] : JSON.stringify(err.response.data);
+                }
+            }
+            setError(errorMsg);
         } finally {
             setLoading(false);
         }
