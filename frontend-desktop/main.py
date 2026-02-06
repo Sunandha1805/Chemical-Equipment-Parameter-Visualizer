@@ -9,6 +9,10 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
 from PyQt5.QtCore import Qt
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 class VisualizerApp(QMainWindow):
     def __init__(self):
@@ -80,8 +84,8 @@ class VisualizerApp(QMainWindow):
         self.layout.addLayout(main_content)
 
         self.selected_file_path = ""
-        self.api_base = "http://127.0.0.1:8000/api"
-        self.auth_token = "8abb65433a2f9d94ee8f86a67f49c5d4026fb0f2"
+        self.api_base = os.getenv("API_BASE", "http://127.0.0.1:8000/api")
+        self.auth_token = os.getenv("AUTH_TOKEN", "")
         self.current_data_id = None
 
     def open_file_dialog(self):

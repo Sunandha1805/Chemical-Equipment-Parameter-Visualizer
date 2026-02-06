@@ -7,8 +7,8 @@ import DataPreviewTable from './components/DataPreviewTable';
 import IntroState from './components/IntroState';
 import { getLatestSummary, setAuthToken, getHistory } from './services/api';
 
-// Fixed token for development (Updated after database reset)
-setAuthToken("8abb65433a2f9d94ee8f86a67f49c5d4026fb0f2");
+// Auth token from environment (Default for development)
+setAuthToken(import.meta.env.VITE_AUTH_TOKEN || "");
 
 function App() {
     const [uiState, setUiState] = useState('intro_state'); // intro_state | viewing_previous_analysis | viewing_current_upload

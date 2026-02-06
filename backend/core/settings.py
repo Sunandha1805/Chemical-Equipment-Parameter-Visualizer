@@ -128,6 +128,12 @@ STATIC_URL = 'static/'
 
 CORS_ALLOW_ALL_ORIGINS = os.getenv('CORS_ALLOW_ALL_ORIGINS', 'False') == 'True'
 
+FRONTEND_URL = os.getenv('FRONTEND_URL')
+
+if FRONTEND_URL and not CORS_ALLOW_ALL_ORIGINS:
+    CORS_ALLOWED_ORIGINS = [FRONTEND_URL]
+    CSRF_TRUSTED_ORIGINS = [FRONTEND_URL]
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
